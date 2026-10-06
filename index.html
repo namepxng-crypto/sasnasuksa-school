@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SASNASUKSA SCHOOL | ระบบผลการเรียน</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;background:#f4f8fc;color:#17324d}
+header{background:linear-gradient(135deg,#087fc1,#45b9e8);color:#fff;padding:18px 24px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 15px #0002}
+header img{width:58px;height:58px;border-radius:50%;background:#fff;padding:2px}header h1{margin:0;font-size:21px}header p{margin:3px 0 0;opacity:.9}
+.container{max-width:1050px;margin:28px auto;padding:0 18px}.login{max-width:430px;margin:45px auto;background:#fff;padding:30px;border-radius:22px;box-shadow:0 8px 30px #17476b18;text-align:center}.login img{width:100px}.login h2{margin:10px 0 4px}.login p{color:#64788b}
+input,select,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #d5e1ea;font-size:15px;margin-top:10px}button{border:0;background:#087fc1;color:white;font-weight:700;cursor:pointer}button:hover{filter:brightness(.95)}.hint{font-size:12px;color:#789;margin-top:12px}
+.dashboard{display:none}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.logout{width:auto;padding:9px 15px;background:#e85454}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 5px 20px #17476b12}.card small{color:#708597}.gpa{font-size:34px;font-weight:800;color:#087fc1;margin-top:5px}
+.panel{background:#fff;border-radius:18px;padding:20px;margin-top:18px;box-shadow:0 5px 20px #17476b12}table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:12px 9px;border-bottom:1px solid #e8eef3;text-align:left}th{background:#eef8fd;color:#176087}.grade{font-weight:800;color:#087fc1}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.nav button{width:auto;background:#e8f5fb;color:#087fc1}.nav button.active{background:#087fc1;color:#fff}.admin{display:none}
+@media(max-width:700px){.cards{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}header h1{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+<img src="school-logo.png" alt="ตราโรงเรียน">
+<div><h1>SASNASUKSA SCHOOL</h1><p>ระบบสารสนเทศผลการเรียน</p></div>
+</header>
+
+<main class="container">
+<section id="login" class="login">
+<img src="school-logo.png" alt="ตราโรงเรียน">
+<h2>SASNASUKSA SCHOOL</h2>
+<p>เข้าสู่ระบบเพื่อดูผลการเรียน</p>
+<select id="role"><option value="student">นักเรียน</option><option value="teacher">ครู</option><option value="admin">ผู้ดูแลระบบ</option></select>
+<input id="username" placeholder="รหัสผู้ใช้งาน">
+<input id="password" type="password" placeholder="รหัสผ่าน">
+<button onclick="login()">เข้าสู่ระบบ</button>
+<div class="hint">ตัวอย่างสำหรับทดสอบ: student / 1234</div>
+</section>
+
+<section id="dashboard" class="dashboard">
+<div class="topbar"><div><h2 id="welcome">สวัสดี</h2><div id="sub">ภาคเรียนที่ 1 ปีการศึกษา 2569</div></div><button class="logout" onclick="logout()">ออกจากระบบ</button></div>
+
+<div class="nav">
+<button class="active" onclick="showTab('grades',this)">📊 ผลการเรียน</button>
+<button onclick="showTab('profile',this)">👤 ข้อมูลนักเรียน</button>
+<button id="teacherTab" style="display:none" onclick="showTab('teacher',this)">✏️ จัดการคะแนน</button>
+</div>
+
+<div id="grades" class="tab">
+<div class="cards">
+<div class="card"><small>เกรดเฉลี่ยสะสม (GPA)</small><div class="gpa">3.25</div></div>
+<div class="card"><small>ภาคเรียน</small><div class="gpa">1/2569</div></div>
+<div class="card"><small>หน่วยกิต</small><div class="gpa">18</div></div>
+</div>
+<div class="panel"><h3>ผลการเรียน ภาคเรียนที่ 1/2569</h3>
+<table><thead><tr><th>รหัส</th><th>วิชา</th><th>หน่วยกิต</th><th>เกรด</th></tr></thead>
+<tbody>
+<tr><td>ท31101</td><td>ภาษาไทย</td><td>1.0</td><td class="grade">3.0</td></tr>
+<tr><td>ค31101</td><td>คณิตศาสตร์</td><td>1.0</td><td class="grade">3.5</td></tr>
+<tr><td>อ31101</td><td>ภาษาอังกฤษ</td><td>1.0</td><td class="grade">3.5</td></tr>
+<tr><td>ว31101</td><td>วิทยาศาสตร์</td><td>1.0</td><td class="grade">3.0</td></tr>
+<tr><td>ส31101</td><td>สังคมศึกษา</td><td>1.0</td><td class="grade">3.5</td></tr>
+</tbody></table></div>
+</div>
+
+<div id="profile" class="tab" style="display:none"><div class="panel"><h3>ข้อมูลนักเรียน</h3>
+<table><tr><th>ชื่อ-สกุล</th><td>ตัวอย่าง นักเรียน</td></tr><tr><th>รหัสนักเรียน</th><td>12345</td></tr><tr><th>ชั้น</th><td>ม.5/1</td></tr><tr><th>ปีการศึกษา</th><td>2569</td></tr></table></div></div>
+
+<div id="teacher" class="tab" style="display:none"><div class="panel"><h3>จัดการคะแนน (ตัวอย่าง)</h3>
+<p>ในเวอร์ชันจริง หน้านี้จะเชื่อมฐานข้อมูลและให้ครูกรอกคะแนนนักเรียนได้</p>
+<table><tr><th>รหัสนักเรียน</th><th>ชื่อ</th><th>วิชา</th><th>คะแนน</th><th>เกรด</th></tr>
+<tr><td>12345</td><td>ตัวอย่าง นักเรียน</td><td>คณิตศาสตร์</td><td>82</td><td class="grade">3.5</td></tr></table></div></div>
+</section>
+</main>
+
+<script>
+function login(){
+ const u=document.getElementById('username').value.trim(), p=document.getElementById('password').value, r=document.getElementById('role').value;
+ if((r==='student'&&u==='student'&&p==='1234')||(r==='teacher'&&u==='teacher'&&p==='1234')||(r==='admin'&&u==='admin'&&p==='1234')){
+   document.getElementById('login').style.display='none'; document.getElementById('dashboard').style.display='block';
+   document.getElementById('welcome').textContent=r==='student'?'สวัสดี นักเรียน':r==='teacher'?'สวัสดี คุณครู':'สวัสดี ผู้ดูแลระบบ';
+   document.getElementById('teacherTab').style.display=r==='student'?'none':'inline-block';
+ }else alert('รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+}
+function logout(){location.reload()}
+function showTab(id,btn){
+ document.querySelectorAll('.tab').forEach(x=>x.style.display='none');
+ document.getElementById(id).style.display='block';
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active')); btn.classList.add('active');
+}
+</script>
+</body>
+</html>
